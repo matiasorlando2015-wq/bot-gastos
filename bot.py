@@ -71,8 +71,8 @@ async def verjson(update, context):
 
     try:
         with open("datos.json", "r", encoding="utf-8") as f:
-            contenido = f.read()
-
+            texto = f.read()
+        update.message.reply_text(texto)
         if len(contenido) > 4000:
             contenido = contenido[:4000] + "\n...\n(archivo muy largo)"
 
