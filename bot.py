@@ -12,7 +12,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Comandos:\n"
         "cargar: /c\n"
         "Ver datos: /d\n"
-        "Ver asientos: /a"
+        "Ver archivos: /b"
     )
 
 async def datos(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -56,12 +56,20 @@ async def gasto(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"${monto} – {categoria} – {medio}"
     )
 
+async def backup(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    
+    with open("datos.json", "rb") as f:
+        await update.message.reply_document(f)
+
+    with open("Gastos.txt", "rb") as f:
+        await update.message.reply_document(f)
 
 app = ApplicationBuilder().token(TOKEN).build()
 
 app.add_handler(CommandHandler("start", start))
 app.add_handler(CommandHandler("d", datos))
 app.add_handler(CommandHandler("c", gasto))
+app.add_handler(CommandHandler("b", backup))
 
 print("🤖 Bot corriendo...")
 app.run_polling()
