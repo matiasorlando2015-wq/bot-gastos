@@ -12,7 +12,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Comandos:\n"
         "cargar: /c\n"
         "Ver datos: /d\n"
-        "Ver archivos: /b"
+        "Descargar archivos: /b\n"
+        "Ver json: /j\n"
+        "Ver txt: /t"
     )
 
 async def datos(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -64,13 +66,41 @@ async def backup(update: Update, context: ContextTypes.DEFAULT_TYPE):
     with open("Gastos.txt", "rb") as f:
         await update.message.reply_document(f)
 
+async def verjson(update, context):
+
+    try:
+        with open("datos.json", "r", encoding="utf-8") as f:
+            contenido = f.read()
+
+        if len(contenido) > 4000:
+            contenido = contenido[:4000] + "\n...\n(archivo muy largo)"
+
+        await update.message.reply_text(contenido)
+
+    except:
+        await update.message.reply_text("No se pudo leer datos.json")
+
+async def vertxt(update, context):
+
+    try:
+        with open("Gastos.txt", "r", encoding="utf-8") as f:
+            lineas = f.readlines()
+
+        ultimas = "".join(lineas[-20:])
+
+        await update.message.reply_text(ultimas)
+
+    except:
+        await update.message.reply_text("No se pudo leer Gastos.txt")
+        
 app = ApplicationBuilder().token(TOKEN).build()
 
 app.add_handler(CommandHandler("start", start))
 app.add_handler(CommandHandler("d", datos))
 app.add_handler(CommandHandler("c", gasto))
 app.add_handler(CommandHandler("b", backup))
-
+app.add_handler(CommandHandler("j", verjson))
+app.add_handler(CommandHandler("t", vertxt))
 print("🤖 Bot corriendo...")
 app.run_polling()
 
