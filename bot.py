@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-from gastos import cargar_gasto, resumen_mes_actual
+from gastos import cargar_gasto, resumen_mes_actual, obtener_saldo
 
 
 TOKEN = "8442795480:AAEIJt3bWL3_EX4MRtdKcv4UGy2ZKiNuOLY"
@@ -14,7 +14,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Ver datos: /d\n"
         "Descargar archivos: /b\n"
         "Ver json: /j\n"
-        "Ver txt: /t"
+        "Ver txt: /t\n"
+        "Ver saldo: /s"
     )
 
 async def datos(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -92,6 +93,15 @@ async def vertxt(update, context):
 
     except:
         await update.message.reply_text("No se pudo leer Gastos.txt")
+
+async def saldo(update, context):
+
+    try:
+        mensaje = obtener_saldo()
+        await update.message.reply_text(mensaje)
+
+    except:
+        await update.message.reply_text("Error obteniendo el saldo.")
         
 app = ApplicationBuilder().token(TOKEN).build()
 
@@ -101,6 +111,8 @@ app.add_handler(CommandHandler("c", gasto))
 app.add_handler(CommandHandler("b", backup))
 app.add_handler(CommandHandler("j", verjson))
 app.add_handler(CommandHandler("t", vertxt))
+app.add_handler(CommandHandler("s", saldo))
+
 print("🤖 Bot corriendo...")
 app.run_polling()
 

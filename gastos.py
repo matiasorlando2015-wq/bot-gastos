@@ -159,6 +159,22 @@ def limp():
 
     return "Sistema reiniciado correctamente."
 
+def obtener_saldo():
+
+    datos = cargar_datos()
+
+    medios = datos["medios_pago"]
+
+    mensaje = "Saldo actual\n\n"
+    total = 0
+
+    for medio, monto in medios.items():
+        mensaje += f"{medio.capitalize()}: ${monto:,.2f}\n"
+        total += monto
+
+    mensaje += f"\nTotal disponible: ${total:,.2f}"
+
+    return mensaje
 
 # limp()
 # Agregar categoria:
