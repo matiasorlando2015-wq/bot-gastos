@@ -1,0 +1,22 @@
+{
+    "categorias": {
+        "comida": 20827,
+        "deporte": 0,
+        "movilidad": 0,
+        "inversiones": 200000,
+        "eclesiasticos": 42500,
+        "ocio": 0,
+        "regalos": 0,
+        "varios": 77000,
+        "intereses": 393,
+        "profit": 0
+    },
+    "medios_pago": {
+        "efectivo": 0,
+        "mp": 112210
+    },
+    "ingresos": {
+        "sueldo": 452144
+    },
+    "asientos": 9
+}
