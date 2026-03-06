@@ -67,19 +67,31 @@ async def backup(update: Update, context: ContextTypes.DEFAULT_TYPE):
     with open("Gastos.txt", "rb") as f:
         await update.message.reply_document(f)
 
-async def verjson(update, context):
+# async def verjson(update, context):
 
+#     try:
+#         with open("datos.json", "r", encoding="utf-8") as f:
+#             texto = f.read()
+#         update.message.reply_text(texto)
+#         if len(contenido) > 4000:
+#             contenido = contenido[:4000] + "\n...\n(archivo muy largo)"
+
+#         await update.message.reply_text(contenido)
+
+#     except:
+#         await update.message.reply_text("No se pudo leer datos.json")
+def verjson(update, context):
     try:
         with open("datos.json", "r", encoding="utf-8") as f:
             texto = f.read()
+
         update.message.reply_text(texto)
-        if len(contenido) > 4000:
-            contenido = contenido[:4000] + "\n...\n(archivo muy largo)"
 
-        await update.message.reply_text(contenido)
+    except FileNotFoundError:
+        update.message.reply_text("El archivo datos.json todavía no existe.")
 
-    except:
-        await update.message.reply_text("No se pudo leer datos.json")
+    except Exception as e:
+        update.message.reply_text(f"Error leyendo JSON: {e}")
 
 async def vertxt(update, context):
 
