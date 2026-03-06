@@ -73,10 +73,10 @@ async def verjson(update, context):
         with open("datos.json", "r", encoding="utf-8") as f:
             texto = f.read()
         update.message.reply_text(texto)
-        if len(contenido) > 4000:
-            contenido = contenido[:4000] + "\n...\n(archivo muy largo)"
+        if len(texto) > 4000:
+            texto = texto[:4000] + "\n...\n(archivo muy largo)"
 
-        await update.message.reply_text(contenido)
+        await update.message.reply_text(texto)
 
     except:
         await update.message.reply_text("No se pudo leer datos.json")
