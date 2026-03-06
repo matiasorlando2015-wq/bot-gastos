@@ -42,8 +42,8 @@ def agregar_medio(nombre):
 def cargar_gasto(monto, categoria, medio):
     datos = cargar_datos()
 
-    categoria = categoria.lower()
-    medio = medio.lower()
+    categoria = categoria.lower().strip()
+    medio = medio.lower().strip()
 
     fecha = datetime.now().strftime("%d/%m/%Y")
 
