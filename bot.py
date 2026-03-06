@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-from gastos import cargar_gasto, resumen_mes_actual, obtener_saldo
+from gastos import cargar_gasto, resumen_mes_actual, obtener_saldo, limp
 
 
 TOKEN = "8442795480:AAEIJt3bWL3_EX4MRtdKcv4UGy2ZKiNuOLY"
@@ -81,7 +81,6 @@ async def verjson(update, context):
     except:
         await update.message.reply_text("No se pudo leer datos.json")
 
-
 async def vertxt(update, context):
 
     try:
@@ -103,7 +102,14 @@ async def saldo(update, context):
 
     except:
         await update.message.reply_text("Error obteniendo el saldo.")
-        
+
+async def limpiar(update, context):
+    try:
+        mensaje = limp()
+        update.message.reply_text(mensaje)
+    except Exception as e:
+        update.message.reply_text(f"Error: {e}")     
+
 app = ApplicationBuilder().token(TOKEN).build()
 
 app.add_handler(CommandHandler("start", start))
@@ -113,6 +119,7 @@ app.add_handler(CommandHandler("b", backup))
 app.add_handler(CommandHandler("j", verjson))
 app.add_handler(CommandHandler("t", vertxt))
 app.add_handler(CommandHandler("s", saldo))
+app.add_handler(CommandHandler("borrar", limpiar))
 
 print("🤖 Bot corriendo...")
 app.run_polling()
