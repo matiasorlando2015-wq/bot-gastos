@@ -176,6 +176,42 @@ def obtener_saldo():
 
     return mensaje
 
+def sacar_medio(nombre):
+
+    with open("medios.json", "r") as f:
+        datos = json.load(f)
+
+    medios = datos["medios"]
+
+    for m in medios:
+        if m.lower() == nombre.lower():
+            medios.remove(m)
+
+            with open("medios.json", "w") as f:
+                json.dump(datos, f, indent=4)
+
+            return True
+
+    return False
+
+def sacar_categoria(nombre):
+
+    with open("categorias.json", "r") as f:
+        datos = json.load(f)
+
+    categorias = datos["categorias"]
+
+    for c in categorias:
+        if c.lower() == nombre.lower():
+            categorias.remove(c)
+
+            with open("categorias.json", "w") as f:
+                json.dump(datos, f, indent=4)
+
+            return True
+
+    return False
+ 
 # limp()
 # Agregar categoria:
 # agregar_categoria("nombre")

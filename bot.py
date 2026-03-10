@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-from gastos import cargar_gasto, resumen_mes_actual, obtener_saldo, limp
+from gastos import cargar_gasto, resumen_mes_actual, obtener_saldo, limp, agregar_medio, agregar_categoria, sacar_medio, sacar_categoria
 
 
 TOKEN = "8442795480:AAEIJt3bWL3_EX4MRtdKcv4UGy2ZKiNuOLY"
@@ -14,6 +14,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Ver datos: /d\n"
         "Descargar archivos: /b\n"
         "Ver json: /j\n"
+        "Borrar: /borrar\n"
+        "Agregar medio: /am\n"
+        "Agregar categoria: /ac\n"
+        "Sacar medio: /sm\n"
+        "Sacar categoria: /sc\n"
         "Ver txt: /t\n"
         "Ver saldo: /s"
     )
@@ -108,7 +113,68 @@ async def limpiar(update, context):
         mensaje = limp()
         update.message.reply_text(mensaje)
     except Exception as e:
-        update.message.reply_text(f"Error: {e}")     
+        update.message.reply_text(f"Error: {e}")  
+
+async def agregarmedio(update,context):
+    args = context.args
+    if len(args) == 0:
+        await update.message.reply_text("Usá: /am nombre")
+        return
+    
+    nombre = " ".join(args).lower()
+
+    agregado = agregar_medio(nombre)
+
+    if agregado:
+        await update.message.reply_text(f"Medio '{nombre}' agregado.")
+    else:
+        await update.message.reply_text("Ese medio ya existe.")
+
+async def agregarcat(update,context):
+    args = context.args
+    if len(args) == 0:
+        await update.message.reply_text("Usá: /ac nombre")
+        return
+    
+    nombre = " ".join(args).lower()
+
+    agregado = agregar_categoria(nombre)
+
+    if agregado:
+        await update.message.reply_text(f"Categoria '{nombre}' agregado.")
+    else:
+        await update.message.reply_text("Esa categoria ya existe.")
+
+async def quitarmedio(update, context):
+
+    if len(context.args) == 0:
+        await update.message.reply_text("Usá: /sm nombre")
+        return
+
+    nombre = " ".join(context.args)
+
+    eliminado = sacar_medio(nombre)
+
+    if eliminado:
+        await update.message.reply_text(f"Medio '{nombre}' eliminado.")
+    else:
+        await update.message.reply_text("Ese medio no existe.")
+
+async def quitarcat(update, context):
+
+    if len(context.args) == 0:
+        await update.message.reply_text("Usá: /sc nombre")
+        return
+
+    nombre = " ".join(context.args)
+
+    eliminado = sacar_categoria(nombre)
+
+    if eliminado:
+        await update.message.reply_text(f"Categoría '{nombre}' eliminada.")
+    else:
+        await update.message.reply_text("Esa categoría no existe.")
+
 
 app = ApplicationBuilder().token(TOKEN).build()
 
@@ -120,6 +186,10 @@ app.add_handler(CommandHandler("j", verjson))
 app.add_handler(CommandHandler("t", vertxt))
 app.add_handler(CommandHandler("s", saldo))
 app.add_handler(CommandHandler("borrar", limpiar))
+app.add_handler(CommandHandler("am", agregarmedio))
+app.add_handler(CommandHandler("ac", agregar_categoria))
+app.add_handler(CommandHandler("sm", quitarmedio))
+app.add_handler(CommandHandler("sc", quitarcat))
 
 print("🤖 Bot corriendo...")
 app.run_polling()
