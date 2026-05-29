@@ -9,7 +9,8 @@
         "regalos": 0,
         "varios": 0,
         "intereses": 0,
-        "profit": 0
+        "profit": 0,
+        "yerba": 0
     },
     "medios_pago": {
         "efectivo": 0,
