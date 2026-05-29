@@ -4,7 +4,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 from gastos import cargar_gasto, resumen_mes_actual, obtener_saldo, limp, agregar_medio, agregar_categoria, sacar_medio, sacar_categoria
 
 
-TOKEN = "8442795480:AAEIJt3bWL3_EX4MRtdKcv4UGy2ZKiNuOLY"
+TOKEN = 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
