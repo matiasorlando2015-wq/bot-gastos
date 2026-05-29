@@ -1,10 +1,11 @@
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
-
+from dotenv import load_dotenv
+import os
 from gastos import cargar_gasto, resumen_mes_actual, obtener_saldo, limp, agregar_medio, agregar_categoria, sacar_medio, sacar_categoria
 
-
-TOKEN = 
+load_dotenv()
+TOKEN = os.getenv('TOKEN')
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
